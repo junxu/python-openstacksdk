@@ -19,7 +19,9 @@ from openstack.network.v2 import metering_label as _metering_label
 from openstack.network.v2 import metering_label_rule as _metering_label_rule
 from openstack.network.v2 import network as _network
 from openstack.network.v2 import pool as _pool
+from openstack.network.v2 import pool_v1 as _pool_v1
 from openstack.network.v2 import pool_member as _pool_member
+from openstack.network.v2 import pool_member_v1 as _pool_member_v1
 from openstack.network.v2 import port as _port
 from openstack.network.v2 import quota as _quota
 from openstack.network.v2 import router as _router
@@ -1373,3 +1375,110 @@ class Proxy(proxy.BaseProxy):
         :rtype: :class:`~openstack.network.v2.vpn_service.VPNService`
         """
         return self._update(_vpn_service.VPNService, vpn_service, **attrs)
+
+    def find_pool_v1(self, name_or_id, ignore_missing=True):
+        """Find a single pool
+
+        :param name_or_id: The name or ID of a pool.
+        :param bool ignore_missing: When set to ``False``
+                    :class:`~openstack.exceptions.ResourceNotFound` will be
+                    raised when the resource does not exist.
+                    When set to ``True``, None will be returned when
+                    attempting to find a nonexistent resource.
+        :returns: One :class:`~openstack.network.v2.pool_v1.PoolV1` or None
+        """
+        return self._find(_pool_v1.PoolV1, name_or_id,
+                          ignore_missing=ignore_missing)
+
+    def get_pool_v1(self, pool):
+        """Get a single pool
+
+        :param pool: The value can be the ID of a pool or a
+                     :class:`~openstack.network.v2.pool_v1.PoolV1` instance.
+
+        :returns: One :class:`~openstack.network.v2.pool_v1.PoolV1`
+        :raises: :class:`~openstack.exceptions.ResourceNotFound`
+                 when no resource can be found.
+        """
+        return self._get(_pool_v1.PoolV1, pool)
+
+    def pools_v1(self, **query):
+        """Return a generator of pools
+
+        :param kwargs \*\*query: Optional query parameters to be sent to limit
+                                 the resources being returned.
+
+        :returns: A generator of pool objects
+        :rtype: :class:`~openstack.network.v2.pool_v1.PoolV1`
+        """
+        return self._list(_pool_v1.PoolV1, paginated=False, **query)
+
+    def create_pool_member_v1(self, **attrs):
+        """Create a new pool member from attributes
+
+        :param dict attrs: Keyword arguments which will be used to create
+            a :class:`~openstack.network.v2.pool_member_v1.PoolMemberV1`,
+            comprised of the properties on the PoolMember class.
+
+        :returns: The results of pool member creation
+        :rtype: :class:`~openstack.network.v2.pool_member_v1.PoolMemberV1`
+        """
+        return self._create(_pool_member_v1.PoolMemberV1, **attrs)
+
+    def delete_pool_member_v1(self, pool_member, ignore_missing=True):
+        """Delete a pool member
+
+        :param pool_member:
+            The member can be either the ID of a pool member or a
+            :class:`~openstack.network.v2.pool_member_v1.PoolMemberV1` instance.
+        :param bool ignore_missing: When set to ``False``
+                    :class:`~openstack.exceptions.ResourceNotFound` will be
+                    raised when the pool member does not exist.
+                    When set to ``True``, no exception will be set when
+                    attempting to delete a nonexistent pool member.
+
+        :returns: ``None``
+        """
+        self._delete(_pool_member_v1.PoolMemberV1, pool_member,
+                     ignore_missing=ignore_missing)
+
+    def find_pool_member_v1(self, name_or_id, ignore_missing=True):
+        """Find a single pool member
+
+        :param str name_or_id: The name or ID of a pool member.
+        :param bool ignore_missing: When set to ``False``
+                    :class:`~openstack.exceptions.ResourceNotFound` will be
+                    raised when the resource does not exist.
+                    When set to ``True``, None will be returned when
+                    attempting to find a nonexistent resource.
+        :returns: One :class:`~openstack.network.v2.pool_member_v1.PoolMemberV1`
+                  or None
+        """
+        return self._find(_pool_member_v1.PoolMemberV1, name_or_id,
+                          ignore_missing=ignore_missing)
+
+    def get_pool_member_v1(self, pool_member):
+        """Get a single pool member
+
+        :param pool_member: The member can be the ID of a pool member or a
+                       :class:`~openstack.network.v2.pool_member_v1.PoolMemberV1`
+                       instance.
+
+        :returns: One :class:`~openstack.network.v2.pool_member_v1.PoolMemberV1`
+        :raises: :class:`~openstack.exceptions.ResourceNotFound`
+                 when no resource can be found.
+        """
+        return self._get(_pool_member_v1.PoolMemberV1, pool_member)
+
+    def pool_members_v1(self, **query):
+        """Return a generator of pool members
+
+        :param kwargs \*\*query: Optional query parameters to be sent to limit
+                                 the resources being returned.
+
+        :returns: A generator of pool member objects
+        :rtype: :class:`~openstack.network.v2.pool_member_v1.PoolMemberV1`
+        """
+        return self._list(_pool_member_v1.PoolMemberV1,
+                          paginated=False, **query)
+
