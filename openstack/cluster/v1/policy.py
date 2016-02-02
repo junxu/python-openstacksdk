@@ -27,7 +27,8 @@ class Policy(resource.Resource):
     allow_delete = True
     allow_update = True
 
-    patch_update = True
+    #patch_update = True
+    patch_update = False
 
     # Properties
     #: The name of the policy.

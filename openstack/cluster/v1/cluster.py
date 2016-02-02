@@ -28,7 +28,8 @@ class Cluster(resource.Resource):
     allow_update = True
     allow_delete = True
     allow_list = True
-    patch_update = True
+    #patch_update = True
+    patch_update = False 
 
     # Properties
     #: The name of the cluster.

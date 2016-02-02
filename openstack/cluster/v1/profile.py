@@ -27,7 +27,8 @@ class Profile(resource.Resource):
     allow_delete = True
     allow_list = True
 
-    patch_update = True
+    #patch_update = True
+    patch_update = False
 
     # properties
     #: The name of the profile
